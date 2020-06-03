@@ -232,7 +232,7 @@ class Assets {
                 $css[$prop] = $val;
             }
             return $css->css();
-        } elseif (is_a($style, '\\SimplePHP\\Css\\Style')) {
+        } elseif (is_a($style, '\\SimplePHP\\CssStyle')) {
             return $style->css();
         }
         return $style.PHP_EOL;
@@ -241,7 +241,7 @@ class Assets {
     /**
      * Include css code
      * Css code can be string, array, or Css style object {@see Assets::newStyle}
-     * @param $style string|array|Css CSS style code
+     * @param $style string|array|CssStyle CSS style code
      * @param $selector string|null CSS selector, required if CSS style code contains only css rules,
      *  and must be null if css style code already contains selector
      */
@@ -264,13 +264,13 @@ class Assets {
     }
 
     /**
-     * Returns {@see Style} helper object for building style
+     * Returns {@see CssStyle} helper object for building style
      * You can add style from this helper object with {@see Assets::addStyle} method
-     * or {@see Style::save save} method inside helper object
-     * @return Css
+     * or {@see CssStyle::save save} method inside helper object
+     * @return CssStyle
      */
     static function newStyle() {
-        return new Style(self::getInstance());
+        return new CssStyle(self::getInstance());
     }
 }
 
@@ -280,7 +280,7 @@ class Assets {
  * # Usage:
  * First, instantiate this object from {@see Assets::newStyle} method
  * Next, you can specify css properties using magic methods of this object
- * or using this object as array, or using method {@see Style::add add}
+ * or using this object as array, or using method {@see CssStyle::add add}
  * ```
  * $style = Assets::newStyle();
  *
@@ -292,13 +292,13 @@ class Assets {
  *
  * $style->add('background-color: red; font: 12px bold Arial');
  * ```
- * To include style to assets use methods {@see Style::save save} or
- * {@see Css::saveClass saveClass} or {@see Assets::addStyle}
+ * To include style to assets use methods {@see CssStyle::save save} or
+ * {@see CssStyle::saveClass saveClass} or {@see Assets::addStyle}
  * ```
  * $style->save('span.required');
  * ```
  */
-class Style implements \ArrayAccess {
+class CssStyle implements \ArrayAccess {
     static protected $_cssIndex = [];
     static protected $_classes = [];
 
